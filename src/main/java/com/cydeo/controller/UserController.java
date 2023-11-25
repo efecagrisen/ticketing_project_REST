@@ -24,7 +24,7 @@ public class UserController {
     @GetMapping
     public ResponseEntity<ResponseWrapper> getUsers(){
         List<UserDTO> userDTOList = userService.listAllUsers();
-        return ResponseEntity.ok(new ResponseWrapper("Users are succesfully retrieved",userDTOList, HttpStatus.OK);
+        return ResponseEntity.ok(new ResponseWrapper("Users are succesfully retrieved",userDTOList, HttpStatus.OK));
     }
 
 
