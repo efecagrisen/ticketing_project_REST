@@ -23,20 +23,20 @@ public class ProjectController {
     public ResponseEntity<ResponseWrapper> getProjects(){
         List<ProjectDTO> projectDTOList = projectService.listAllProjects();
         return ResponseEntity.ok(new ResponseWrapper("Projects are successfully retrieved",projectDTOList, HttpStatus.OK));
-    };
+    }
 
     @GetMapping("/{code}")
     public ResponseEntity<ResponseWrapper> getProjectByCode(@PathVariable("code") String code){
         ProjectDTO projectDTO = projectService.getByProjectCode(code);
         return ResponseEntity.ok(new ResponseWrapper("Project is successfully retrieved", projectDTO, HttpStatus.OK));
-    };
+    }
 
     @PostMapping
     public ResponseEntity<ResponseWrapper> createProject(@RequestBody ProjectDTO project){
         projectService.save(project);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseWrapper("Project is successfully created",project,HttpStatus.OK));
 
-    };
+    }
 
 
     @PutMapping
@@ -52,9 +52,19 @@ public class ProjectController {
         return ResponseEntity.ok(new ResponseWrapper("Project is successfully deleted", HttpStatus.OK));
     }
 
-    public ResponseEntity<ResponseWrapper> getProjectByManager(){}
+    @GetMapping("/manager/project-status")
+    public ResponseEntity<ResponseWrapper> getProjectByManager(){
+        List<ProjectDTO> projectDTOList = projectService.listAllProjectDetails();
+        return ResponseEntity.ok(new ResponseWrapper("Projects are successfully retrieved",projectDTOList, HttpStatus.OK));
 
-    public ResponseEntity<ResponseWrapper> managerCompleteProject(){}
+    }
+
+    @PutMapping("/manager/complete/{projectCode}")
+    public ResponseEntity<ResponseWrapper> managerCompleteProject(@PathVariable("projectCode") String projectCode){
+        projectService.complete(projectCode);
+        return ResponseEntity.ok(new ResponseWrapper("Project is successfully completed", HttpStatus.OK));
+
+    }
 
 
 
