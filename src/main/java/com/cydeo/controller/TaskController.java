@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/project")
+@RequestMapping("api/v1/task")
 public class TaskController {
 
     private final TaskService taskService;
@@ -36,27 +36,27 @@ public class TaskController {
 
 
     @PostMapping
-    public ResponseEntity<ResponseWrapper> createTasks(TaskDTO taskDTO){
+    public ResponseEntity<ResponseWrapper> createTasks(@RequestBody TaskDTO taskDTO){
         taskService.save(taskDTO);
-        return ResponseEntity.ok(new ResponseWrapper("Task is successfully created", HttpStatus.CREATED));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseWrapper("Task is successfully created", HttpStatus.CREATED));
     }
 
 
-    @PostMapping("/taskId")
+    @DeleteMapping("/taskId")
     public ResponseEntity<ResponseWrapper> deleteTasks(@PathVariable ("taskId") Long taskId){
         taskService.delete(taskId);
-        return ResponseEntity.ok(new ResponseWrapper("Task is successfully deleted", HttpStatus.CREATED));
+        return ResponseEntity.ok(new ResponseWrapper("Task is successfully deleted", HttpStatus.OK));
     }
 
 
     @PutMapping
     public ResponseEntity<ResponseWrapper> updateTasks(@RequestBody TaskDTO taskDTO){
-        taskService.save(taskDTO);
-        return ResponseEntity.ok(new ResponseWrapper("Task is successfully updated", HttpStatus.CREATED));
+        taskService.update(taskDTO);
+        return ResponseEntity.ok(new ResponseWrapper("Task is successfully updated", HttpStatus.OK));
 
     }
 
-
+//1:40
 
     public ResponseEntity<ResponseWrapper> employeePendingTasks(){
 
