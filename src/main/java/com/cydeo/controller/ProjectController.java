@@ -5,9 +5,7 @@ import com.cydeo.dto.ResponseWrapper;
 import com.cydeo.service.ProjectService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,17 +25,36 @@ public class ProjectController {
         return ResponseEntity.ok(new ResponseWrapper("Projects are successfully retrieved",projectDTOList, HttpStatus.OK));
     };
 
-    public ResponseEntity<ResponseWrapper> getProjectByCode(){};
+    @GetMapping("/{code}")
+    public ResponseEntity<ResponseWrapper> getProjectByCode(@PathVariable("code") String code){
+        ProjectDTO projectDTO = projectService.getByProjectCode(code);
+        return ResponseEntity.ok(new ResponseWrapper("Project is successfully retrieved", projectDTO, HttpStatus.OK));
+    };
 
-    public ResponseEntity<ResponseWrapper> createProject(){};
+    @PostMapping
+    public ResponseEntity<ResponseWrapper> createProject(@RequestBody ProjectDTO project){
+        projectService.save(project);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseWrapper("Project is successfully created",project,HttpStatus.OK));
 
-    public ResponseEntity<ResponseWrapper> updateProject(){};
+    };
 
-    public ResponseEntity<ResponseWrapper> deleteProject(){};
 
-    public ResponseEntity<ResponseWrapper> getProjectByManager(){};
+    @PutMapping
+    public ResponseEntity<ResponseWrapper> updateProject(@RequestBody ProjectDTO project){
+        projectService.update(project);
+        return ResponseEntity.ok(new ResponseWrapper("Project is successfully updated", HttpStatus.OK));
 
-    public ResponseEntity<ResponseWrapper> managerCompleteProject(){};
+    }
+
+    @DeleteMapping("/{projectcode}")
+    public ResponseEntity<ResponseWrapper> deleteProject(@PathVariable ("projectcode") String projectcode) {
+        projectService.delete(projectcode);
+        return ResponseEntity.ok(new ResponseWrapper("Project is successfully deleted", HttpStatus.OK));
+    }
+
+    public ResponseEntity<ResponseWrapper> getProjectByManager(){}
+
+    public ResponseEntity<ResponseWrapper> managerCompleteProject(){}
 
 
 
